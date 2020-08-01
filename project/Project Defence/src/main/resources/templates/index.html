@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+<body>
+    <header>
+        <th:block th:include="~{/fragments/header}"></th:block>
+    </header>
+    <main>
+        <div class="container bg-blur rounded mt-5 " >
+            <h1>Welcome to Committer</h1>
+            <hr class="my-3 bg-white w-50"/>
+            <p class="h4">Post, comment, view other posts and have fun in our site.</p>
+        </div>
+    </main>
+    <footer class="footer py-2">
+        <th:block th:include="~{/fragments/footer}"></th:block>
+    </footer>
+</body>
+</html>

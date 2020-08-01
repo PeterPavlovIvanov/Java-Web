@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+<header>
+    <th:block th:include="~{/fragments/logheader}"></th:block>
+</header>
+<body>
+<main>
+
+    <div class="container bg-blur rounded mt-5 ">
+        <form th:action="@{/posts/add}" th:method="POST" th:object="${postAddBindModel}">
+            <div class="container">
+                <h1>Create a post</h1>
+                <p>Please fill in this form to create a post.</p>
+                <hr>
+
+                <label style="margin-left: -4px"><b>Title :</b></label>
+                <input th:field="*{title}" th:errorclass="bg-danger"  type="text" placeholder="Enter title" name="title" id="title" required>
+                <small th:each="e : ${#fields.errors('title')}" th:text="${e}" class="text-danger">Title incorrect!</small>
+                <br>
+
+                <label style="margin-left: -5px;margin-bottom: 50px"><b >Text :</b></label>
+                <textarea style="width: 30%;" rows="8" th:field="*{text}" th:errorclass="bg-danger"  type="text" placeholder="Enter text" name="text" id="text" required></textarea>
+                <small th:each="e : ${#fields.errors('text')}" th:text="${e}" class="text-danger">Text incorrect!</small>
+                <br>
+
+                <button type="submit" class="button">Commit</button>
+            </div>
+        </form>
+    </div>
+
+</main>
+</body>
+<footer class="footer py-2">
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</html>

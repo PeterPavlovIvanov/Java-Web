@@ -1,0 +1,138 @@
+.w-15 {
+    width: 15%;
+}
+
+.bg-gray {
+    background-color: #e9ecef;
+}
+
+.bg-nav {
+    background-color: rgba(1, 141, 8, 0);
+}
+
+body {
+    background-color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #2D3142;
+    min-height: 100%;
+}
+
+header {
+    background-color: #089ac4;
+}
+
+.button {
+    background-color: #e1e1e1;
+    transition-duration: 0.4s;
+    border-radius: 4px;
+    width: 20%;
+}
+
+.button:hover {
+    background-color: #089ac4;
+    transition-duration: 1s;
+}
+
+textarea {
+    resize: none;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: black;
+    background-color: #cbcbcb;
+}
+
+small {
+    display: block;
+    margin-top: -15px;
+    margin-left: 55px;
+}
+
+.img-thumb {
+    padding: .25rem;
+    background-color: #fff;
+    max-width: 100%;
+}
+
+.bg-blur {
+    color: #2D3142;
+    font-weight: bold;
+    /*z-index: 2;*/
+    width: 100%;
+    text-align: center;
+}
+
+.mySticky {
+    position: sticky;
+    left: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Add padding to containers */
+.container {
+    padding: 16px;
+    color: black;
+}
+
+input[type=text], input[type=password] {
+    width: 30%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+/* Add a blue text color to links */
+a {
+    color: black;
+    display: inline;
+}
+
+ul {
+    display: inline;
+}
+
+li {
+    display: inline;
+}
+
+p {
+    color: black;
+}
+
+.signin {
+    background-color: #f3f1f1;
+    text-align: center;
+    color: black;
+}
+
+.postBoxClass {
+    border: solid lightgrey 1px;
+    width: 50%;
+    margin-bottom: -1px;
+    margin-top: -1px;
+    margin-left: 280px;
+}
+
+.postBoxClass:hover {
+    background-color: #efeded;
+    transition-duration: 1s;
+}
+
+.postText {
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 5px;
+}

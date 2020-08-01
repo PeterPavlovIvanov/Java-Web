@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <th:block th:include="~{/fragments/logheader}"></th:block>
+</header>
+<main>
+    <div style="background-color: #dcdcdc;width: 30%;height: 68px;margin-left: 20px;">
+
+        <form th:action="@{/users/search/result/{searchString}(searchString = *{searchString})}" th:method="GET"
+              th:object="${searchUsersBindModel}">
+            <input th:field="*{searchString}" th:errorclass="bg-danger" name="searchString" id="searchString"
+                   style="display:inline;padding: 15px 5px 15px 20px;width: 80%;background-color: #dcdcdc;"
+                   type="text" placeholder="Search for users..." required>
+            <small th:each="e : ${#fields.errors('searchString')}" th:text="${e}" class="text-danger">Search
+                incorrect!</small>
+
+            <button style="border: none;padding-left: 30px; background-color: #dcdcdc" type="submit">
+                <img style="width: 20px;height: 20px;display: inline" th:src="@{/images/magnifyingglass.png}"
+                     alt="magnifying glass">
+            </button>
+            </input>
+        </form>
+
+    </div>
+
+    <div style="margin-top: 50px;" th:if="${isADMIN}" th:each="u : ${allUsers}" th:object="${u}">
+
+        <a th:href="@{/users/profile/(id = *{getId()})}">
+            <div class="postBoxClass">
+                <b><h4 style="padding-top: 5px;" th:text="|Id: ${u.getId()} |"></h4></b>
+                <b><h4 style="padding-top: 5px;" th:text="|Nickname: ${u.getNickname()} |"></h4></b>
+            </div>
+        </a>
+
+    </div>
+</main>
+<footer class="footer py-2">
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

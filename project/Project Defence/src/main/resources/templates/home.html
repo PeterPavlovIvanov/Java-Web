@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+    <script>
+        function vote() {
+            document.getElementById("displayPoints").style.display = "inline";
+        }
+    </script>
+</head>
+<body>
+<header>
+    <th:block th:include="~{/fragments/logheader}"></th:block>
+</header>
+<main>
+    <div class="container bg-blur rounded mt-5 " th:object="${user}">
+        <h1 th:text="|Hello, *{getNickname()}! How are you today?|"></h1>
+        <button class="button"><a class="nav-link text-black active h5" href="/posts/add">Commit!</a></button>
+        <button class="button"><a class="nav-link text-black active h5" th:href="@{/users/profile/(id = *{getId()})}">View
+            Profile</a></button>
+        <p class="h4">Post, comment, view other posts and have fun in our site.</p>
+    </div>
+
+    <div class="container bg-blur rounded mt-5 ">
+        <div class="postBoxClass" th:each="p : ${allPosts}" th:object="${p}">
+
+            <b><h4 style="padding-top: 5px;" th:text="*{title}"></h4></b>
+            <hr style="width: 30%;margin-top: -5px;">
+            <p class="postText" th:text="*{text}"></p>
+            <a style="padding-left:-400px;display: inline;" th:href="@{/users/profile/(id = *{getCommitter().getId()})}"
+               th:text="|Posted by: *{getCommitter().getNickname()}|"></a>
+
+            <p th:if="${hasVoted}" id="displayPoints" style="display: inline;padding-left: 15px;"
+               th:text="|Points :*{points}|"></p>
+            <a style="padding-left: 15px;display: inline;" onclick="vote()"
+               th:href="@{/posts/voteUp/{id}(id = *{id})}"><img src="/static/images/likeicon.png"
+                                                                alt="like"></a>
+        </div>
+    </div>
+
+</main>
+<footer class="footer py-2">
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

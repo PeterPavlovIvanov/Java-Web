@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <th:block th:include="~{/fragments/logheader}"></th:block>
+</header>
+<main>
+
+    <div class="container bg-blur rounded mt-5 ">
+        <div th:each="u : ${usersList}" th:object="${u}">
+
+
+            <a th:href="@{/users/profile/(id = *{getId()})}">
+                <b><h4 style="padding-top: 5px;" th:text="*{getNickname()}"></h4></b>
+            </a>
+
+
+        </div>
+
+    </div>
+</main>
+<footer class="footer py-2">
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

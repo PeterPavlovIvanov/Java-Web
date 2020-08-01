@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+    <script>
+        function deleteConfirm() {
+            if (confirm("Are you sure you want to delete this post?")) {
+                document.getElementById("delBtn").click();
+            }
+        }
+
+        function follow() {
+            if (confirm("Are you sure you want to follow this user?")) {
+                document.getElementById("followBtn").click();
+            }
+        }
+
+        function unfollow() {
+            if (confirm("Are you sure you want to stop following this user?")) {
+                document.getElementById("unfollowBtn").click();
+            }
+        }
+
+        function followers() {
+            document.getElementById("followersBtn").click();
+
+        }
+    </script>
+</head>
+<body>
+<main>
+    <header>
+        <th:block th:include="~{/fragments/logheader}"></th:block>
+    </header>
+
+    <div class="container bg-blur rounded mt-5 " th:object="${user}">
+        <h3 th:text="*{role.getRoleName().name()}"></h3>
+        <p th:text="|Nickname : *{nickname}|"></p>
+        <p th:text="|Email    : *{email}|"></p>
+
+        <div th:if="${!isOwner}">
+            <button th:if="${!unfollow}" class="button" onclick="follow()"
+                    style="margin-left: 15px;margin-bottom: 15px;display: inline;">Follow
+            </button>
+            <button th:if="${unfollow}" class="button" onclick="unfollow()"
+                    style="margin-left: 15px;margin-bottom: 15px;display: inline;">Stop following
+            </button>
+        </div>
+        <button th:if="${hasFollowers}" class="button" onclick="followers()"
+                style="margin-left: 15px;margin-bottom: 15px;display: inline;">Followers
+        </button>
+
+        <hidden><a id="followersBtn" style="display: none;" th:href="@{/users/followers/{id}(id = *{id})}">Follow</a>
+        </hidden>
+        <hidden><a id="followBtn" style="display: none;" th:href="@{/users/follow/{id}(id = *{id})}">Follow</a></hidden>
+        <hidden><a id="unfollowBtn" style="display: none;" th:href="@{/users/unfollow/{id}(id = *{id})}">unfollow</a>
+        </hidden>
+
+
+        <div class="postBoxClass" th:each="p : *{posts}" th:object="${p}">
+
+            <b><h4 style="padding-top: 5px;" th:text="*{title}"></h4></b>
+            <hr style="width: 30%;margin-top: -5px;">
+            <p class="postText" th:text="*{text}"></p>
+            <button th:if="${isOwner}" class="button" onclick="deleteConfirm()"
+                    style="margin-left: 330px;margin-bottom: 15px;">
+                Delete
+            </button>
+
+            <hidden><a id="delBtn" th:href="@{/posts/delete/{id}(id = *{id})}"></a></hidden>
+        </div>
+    </div>
+    <footer>
+        <th:block th:include="~{/fragments/footer}"></th:block>
+    </footer>
+</main>
+<footer class="footer py-2">
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

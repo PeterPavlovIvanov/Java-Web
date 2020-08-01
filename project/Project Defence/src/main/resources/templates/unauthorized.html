@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif;background: #e1e1e1">
+<header style="background: #089ac4;">
+    <h1 style="color:white;">Unauthorized</h1>
+</header>
+<main>
+    <hr>
+
+    <div style="margin-left: 300px;margin-top: 150px;width:50%;border: 10px ridge">
+        <p style="padding-left: 180px;margin-bottom: 20px;display: block;color: black;">Whoops! It seems you are not authorized to see this page at the moment.</p>
+        <img style="padding-left: 245px;margin-top: 15px;margin-bottom: 10px;display: block;width:33%;height: 33%;"
+              th:src="@{/images/letmein.gif}" alt="error gif">
+    </div>
+    <!--    <button class="button" href="/">Back to home</button>-->
+    <div style="margin-left: 300px;margin-top: 190px;margin-bottom: 10px;width:50%;border: 10px ridge">
+        <p style="padding-left: 193px;display: block;color: black;">              &copy; Committer team 2020. All rights reserved.
+        </p>
+    </div>
+</main>
+<footer class="footer py-2">
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <th:block th:include="~{/fragments/logheader}"></th:block>
+</header>
+
+<main>
+
+    <div class="container bg-blur rounded mt-5 ">
+        <form th:action="@{/roles/edit}" th:method="POST" th:object="${userChangeRoleBindModel}">
+            <div class="container">
+                <h1>Change role</h1>
+                <p>Please fill in this form to change a given user's role.</p>
+                <hr>
+                <small th:if="${notFound}" class="text-danger">Incorrect username!</small>
+
+                <label style="margin-left: -4px" for="nickname"><b>Nickname :</b></label>
+                <input th:field="*{nickname}" th:errorclass="bg-danger"  type="text" placeholder="Enter Nickname" name="nickname" id="nickname" required>
+                <small th:each="e : ${#fields.errors('nickname')}" th:text="${e}" class="text-danger">Nickname incorrect!</small>
+                <br>
+
+                <label ><b>Role :</b></label>
+                <select style="width: 20%;margin-bottom: 10px;" th:field="*{roleName}" th:errorclass="bg-danger" class="browser-default custom-select" id="category" name="category">
+                    <option value = "">Select Role</option>
+                    <option th:each="o : ${T(projectdefence.committer.demo.models.entities.RoleName).values()}" th:text="${o}" th:value="${o}" >k</option>
+                </select>
+                <small th:each="e : ${#fields.errors('roleName')}" th:text="${e}" class="text-danger">Role incorrect!</small>
+                <br>
+
+                <button type="submit" class="button">Edit user</button>
+            </div>
+
+            <div class="container signin">
+                <p>Don't have an account? <a href="/users/register">Sign up</a>.</p>
+            </div>
+        </form>
+    </div>
+
+</main>
+<footer class="footer py-2">
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

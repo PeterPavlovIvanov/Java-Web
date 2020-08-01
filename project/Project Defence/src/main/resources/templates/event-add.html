@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+<header>
+    <th:block th:include="~{/fragments/logheader}"></th:block>
+</header>
+<body>
+<main>
+
+    <div class="container bg-blur rounded mt-5 ">
+        <form th:action="@{/events/add}" th:method="POST" th:object="${eventAddBindModel}">
+            <div class="container">
+                <h1>Create an event</h1>
+                <p>Please fill in this form to create an event.</p>
+                <hr>
+<!--                TODO-->
+                <label style="margin-left: -4px"><b>Name :</b></label>
+                <input th:field="*{name}" th:errorclass="bg-danger"  type="text" placeholder="Enter name" name="name" id="name" required>
+                <small th:each="e : ${#fields.errors('name')}" th:text="${e}" class="text-danger">Name incorrect!</small>
+                <br>
+
+                <label style="margin-left: -5px;margin-bottom: 50px"><b >Date :</b></label>
+                <input style="width: 30%;" rows="8" th:field="*{dateTime}" th:errorclass="bg-danger"  type="datetime-local" placeholder="Enter date" name="dateTime" id="dateTime" required>
+                <small th:each="e : ${#fields.errors('dateTime')}" th:text="${e}" class="text-danger">Date incorrect!</small>
+                <br>
+
+                <button type="submit" class="button">Commit</button>
+            </div>
+        </form>
+    </div>
+
+</main>
+</body>
+<footer class="footer py-2">
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</html>
