@@ -10,20 +10,17 @@
     </header>
 
     <div class="container bg-blur rounded mt-5 " th:object="${user}">
-        <a style="padding-left:-400px;display: inline;" th:href="@{/users/profile/(id = *{getId()})}"
+        <a style="display: inline;" th:href="@{/users/profile/(id = *{getId()})}"
            th:text="|Nickname : *{nickname}|"></a>
         <p>Followers:</p>
     </div>
     <div class="postBoxClass" th:each="f : ${followersById}" th:object="${f}">
 
-        <a style="padding-left:-400px;display: block;" th:href="@{/users/profile/(id = *{getId()})}"
+        <a style="text-align: center; display: block;" th:href="@{/users/profile/(id = *{getId()})}"
            th:text="*{getNickname()}"></a>
 
     </div>
 
-    <footer>
-        <th:block th:include="~{/fragments/footer}"></th:block>
-    </footer>
 </main>
 <footer class="footer py-2">
     <th:block th:include="~{/fragments/footer}"></th:block>

@@ -35,7 +35,7 @@ public class RolesController {
         User u = (User) httpSession.getAttribute("user");
         User user = this.userService.getById(u.getId());
         if (user.getRole().getRoleName().toString().equals("ADMIN")) {
-            //model.addAttribute("isADMIN", true);
+            model.addAttribute("isADMIN", true);
             return "role-edit";
         } else {
             return "unauthorized";

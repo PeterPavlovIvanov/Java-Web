@@ -7,10 +7,10 @@
 <header>
     <th:block th:include="~{/fragments/logheader}"></th:block>
 </header>
-<main>
+<main style = "flex: 4 1 auto; padding:30px 10px;" >
 
     <div class="container bg-blur rounded mt-5 ">
-        <div th:each="u : ${usersList}" th:object="${u}">
+        <div class="postBoxClass" th:each="u : ${usersList}" th:object="${u}">
 
 
             <a th:href="@{/users/profile/(id = *{getId()})}">

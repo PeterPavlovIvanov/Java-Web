@@ -41,7 +41,7 @@ public class EventsController {
         User u = (User) httpSession.getAttribute("user");
         User user = this.userService.getById(u.getId());
         if (user.getRole().getRoleName().toString().equals("ADMIN")) {
-            //model.addAttribute("isADMIN", true);
+            model.addAttribute("isADMIN", true);
             return "event-add";
         } else {
             return "unauthorized";
@@ -60,7 +60,7 @@ public class EventsController {
             modelAndView.setViewName("redirect:/events/add");
         } else {
             this.eventService.addEvent(eventAddBindModel, httpSession.getAttribute("id").toString());
-            modelAndView.setViewName("redirect:/");
+            modelAndView.setViewName("redirect:/events/all");
         }
 
         return modelAndView;

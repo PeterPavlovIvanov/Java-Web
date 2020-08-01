@@ -27,14 +27,16 @@
             <b><h4 style="padding-top: 5px;" th:text="*{title}"></h4></b>
             <hr style="width: 30%;margin-top: -5px;">
             <p class="postText" th:text="*{text}"></p>
-            <a style="padding-left:-400px;display: inline;" th:href="@{/users/profile/(id = *{getCommitter().getId()})}"
+            <a style="position:absolute;left:10px;bottom:10px;display: inline;" th:href="@{/users/profile/(id = *{getCommitter().getId()})}"
                th:text="|Posted by: *{getCommitter().getNickname()}|"></a>
 
-            <p th:if="${hasVoted}" id="displayPoints" style="display: inline;padding-left: 15px;"
+            <p th:if="${hasVoted}" id="displayPoints" style="display: inline;padding-left: 15px;margin-bottom:10px;"
                th:text="|Points :*{points}|"></p>
-            <a style="padding-left: 15px;display: inline;" onclick="vote()"
-               th:href="@{/posts/voteUp/{id}(id = *{id})}"><img src="/static/images/likeicon.png"
-                                                                alt="like"></a>
+            <a style="display: inline;position:absolute;right:10px;bottom:10px;" onclick="vote()"
+               th:href="@{/posts/voteUp/{id}(id = *{id})}">
+                <i class="far fa-thumbs-up"></i>
+<!--                <img id ="likeBtn" style="width: 5%;padding-bottom: 8px;" th:src="@{/images/likeicon.png}"-->
+<!--                                                                alt="like">--></a>
         </div>
     </div>
 
