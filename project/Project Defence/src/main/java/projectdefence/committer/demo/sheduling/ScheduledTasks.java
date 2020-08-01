@@ -13,29 +13,33 @@ import org.springframework.stereotype.Component;
 import projectdefence.committer.demo.models.entities.Event;
 import projectdefence.committer.demo.models.services.EventServiceModel;
 import projectdefence.committer.demo.services.EventService;
+import projectdefence.committer.demo.services.UserService;
 
 @Component
 public class ScheduledTasks {
     private final EventService eventService;
-
-    private final LocalDateTime localDateTime = LocalDateTime.now();
+    private LocalDateTime localDateTime;
     private final ModelMapper modelMapper;
+    private final UserService userService;
 
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    public ScheduledTasks(EventService eventService, ModelMapper modelMapper) {
+    public ScheduledTasks(EventService eventService, ModelMapper modelMapper, UserService userService) {
         this.eventService = eventService;
         this.modelMapper = modelMapper;
+        this.userService = userService;
     }
 
     @Scheduled(fixedRate = 60000)
     public void reportCurrentTime() {
         log.info("The time is now {}", dateFormat.format(new Date()));
 
+        this.localDateTime = LocalDateTime.now();
         for (Event e : this.eventService.getAll()) {
-            if (e.getDateTime().isBefore(e.getDateTime())) {
+            if (e.getDateTime().isBefore(localDateTime)) {
                 log.info("Event " + e.getName() + " by " + e.getCommitter().getNickname() + " has expired.");
+                this.userService.deleteEvent(e, e.getCommitter());
                 this.eventService.delete(e.getId());
             }
         }

@@ -69,14 +69,16 @@ public class EventsController {
     @GetMapping("/all")
     public String getAll(Model model, HttpSession httpSession) {
         model.addAttribute("allEvents", this.eventService.getAll());
-        if (this.eventService.getAll().size() == 0){
-            model.addAttribute("noEvents",true);
+        if (this.eventService.getAll().size() == 0) {
+            model.addAttribute("noEvents", true);
         }
 
         User u = (User) httpSession.getAttribute("user");
         User user = this.userService.getById(u.getId());
-        if (user.getRole().getRoleName().toString().equals("ADMIN") || user.getRole().getRoleName().toString().equals("USER")) {
+        if (user.getRole().getRoleName().toString().equals("ADMIN")) {
             model.addAttribute("isADMIN", true);
+            return "events-all";
+        } else if (user.getRole().getRoleName().toString().equals("USER")) {
             return "events-all";
         } else {
             return "unauthorized";

@@ -4,10 +4,7 @@ import org.modelmapper.ModelMapper;
 
 import org.springframework.stereotype.Service;
 import projectdefence.committer.demo.models.bindings.UserChangeRoleBindModel;
-import projectdefence.committer.demo.models.entities.Post;
-import projectdefence.committer.demo.models.entities.Role;
-import projectdefence.committer.demo.models.entities.RoleName;
-import projectdefence.committer.demo.models.entities.User;
+import projectdefence.committer.demo.models.entities.*;
 import projectdefence.committer.demo.models.services.PostServiceModel;
 import projectdefence.committer.demo.models.services.UserServiceModel;
 import projectdefence.committer.demo.models.views.UserViewModel;
@@ -107,5 +104,17 @@ public class UserServiceImpl implements UserService {
         return userViewModels;
     }
 
+    @Override
+    public void deleteEvent(Event e, User u) {
+        User user = this.userRepository.findByNickname(e.getCommitter().getNickname()).orElse(null);
 
+        for (int i = 0; i < user.getEvents().size(); i++) {
+            if (user.getEvents().get(i).getId().equals(e.getId())) {
+                user.getEvents().remove(i);
+                break;
+            }
+        }
+
+        this.userRepository.saveAndFlush(user);
+    }
 }
