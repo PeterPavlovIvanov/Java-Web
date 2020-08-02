@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script>
+        function participateClick() {
+            let val = document.getElementById("joinId").getAttribute("value");
+            axios.get("http://localhost:8080/events/participate/" + val).catch(err => console.log(err));
+        }
+
+        function leaveClick() {
+            let val = document.getElementById("leaveId").getAttribute("value");
+            axios.get("http://localhost:8080/events/leave/" + val).catch(err => console.log(err));
+        }
+
+        function requestSent(){
+            if(document.getElementById("participateBtn").getElementsByTagName("span")[0].innerText === 'Leave'){
+                leaveClick();
+                document.getElementById("participateBtn").getElementsByTagName("span")[0].innerText = 'Participate';
+            }else{
+                participateClick();
+                document.getElementById("participateBtn").getElementsByTagName("span")[0].innerText = 'Leave';
+            }
+        }
+    </script>
+</head>
+<body>
+<main>
+    <header>
+        <th:block th:include="~{/fragments/logheader}"></th:block>
+    </header>
+
+    <div class="container bg-blur rounded mt-5 " th:object="${eventServiceModel}">
+
+        <b><h4 style="padding-top: 5px;" th:text="*{name}"></h4></b>
+        <hr style="width: 30%;margin-top: -5px;">
+        <p th:text="|Date: ${#temporals.format(eventServiceModel.getDateTime(), 'yyyy-MM-dd HH:mm:ss')}|"></p>
+        <img style="width: 30%;" th:src="@{/images/eventPic.png}" alt="eventPic">
+        <a style="padding-left:-400px;display: inline;" th:href="@{/users/profile/(id = *{getCommitter().getId()})}"
+           th:text="|Posted by: *{getCommitter().getNickname()}|"></a>
+
+        <input type="hidden" id="joinId" th:value="${eventServiceModel.getId()}"/>
+        <input type="hidden" id="leaveId" th:value="${eventServiceModel.getId()}"/>
+
+<!--        <button th:if="${!isParticipant}" onclick="participateClick()" id="participateBtn" class="button">-->
+<!--            Participate-->
+<!--        </button>-->
+<!--        <button th:if="${isParticipant}" onclick="leaveClick()" id="leaveBtn" class="button">-->
+<!--            Leave-->
+<!--        </button>-->
+
+        <div th:if="${!isOwner}">
+            <button th:switch="${isParticipant}"  onclick="requestSent()" id="participateBtn" class="button">
+                <span th:case="${isParticipant}">Leave</span>
+                <span th:case="${!isParticipant}">Participate</span>
+            </button>
+        </div>
+
+    </div>
+</main>
+<footer class="footer py-2">
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</body>
+</html>
+
+

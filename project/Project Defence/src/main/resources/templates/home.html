@@ -4,6 +4,7 @@
     <th:block th:include="~{/fragments/head}"></th:block>
     <script>
         function vote() {
+            document.getElementById("like").click();
             document.getElementById("displayPoints").style.display = "inline";
         }
     </script>
@@ -32,11 +33,9 @@
 
             <p th:if="${hasVoted}" id="displayPoints" style="display: inline;padding-left: 15px;margin-bottom:10px;"
                th:text="|Points :*{points}|"></p>
-            <a style="display: inline;position:absolute;right:10px;bottom:10px;" onclick="vote()"
-               th:href="@{/posts/voteUp/{id}(id = *{id})}">
-                <i class="far fa-thumbs-up"></i>
-<!--                <img id ="likeBtn" style="width: 5%;padding-bottom: 8px;" th:src="@{/images/likeicon.png}"-->
-<!--                                                                alt="like">--></a>
+            <button style="display: inline;position:absolute;right:10px;bottom:10px;" onclick="vote()"><i class="far fa-thumbs-up"></i></button>
+                <hidden><a id="like" th:href="@{/posts/voteUp/{id}(id = *{id})}"></a></hidden>
+
         </div>
     </div>
 

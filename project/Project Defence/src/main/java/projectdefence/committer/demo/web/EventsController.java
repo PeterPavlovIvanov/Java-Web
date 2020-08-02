@@ -4,15 +4,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import projectdefence.committer.demo.models.bindings.EventAddBindModel;
-import projectdefence.committer.demo.models.bindings.PostAddBindModel;
+import projectdefence.committer.demo.models.entities.Event;
+import projectdefence.committer.demo.models.entities.RoleName;
 import projectdefence.committer.demo.models.entities.User;
+import projectdefence.committer.demo.models.services.EventServiceModel;
 import projectdefence.committer.demo.services.EventService;
 import projectdefence.committer.demo.services.UserService;
 
@@ -84,4 +83,62 @@ public class EventsController {
             return "unauthorized";
         }
     }
+
+    @GetMapping("/participate/{id}")
+    public String participate(@PathVariable(name = "id") String id, Model model, HttpSession httpSession) {
+//        User u = (User) httpSession.getAttribute("user");
+//        if (u == null || (u.getRole().getRoleName() != RoleName.ADMIN && u.getRole().getRoleName() != RoleName.USER)) {
+//            return "unauthorized";
+//        }
+
+        User userReg = this.userService.getById(httpSession.getAttribute("id").toString());
+        Event event = this.eventService.getById(id);
+        this.eventService.participate(event, userReg);
+
+        model.addAttribute("currentParticipants", event.getParticipants());
+
+        return "redirect:/events/event/?id=" + id;
+    }
+
+    @GetMapping("/leave/{id}")
+    public String leave(@PathVariable(name = "id") String id, Model model, HttpSession httpSession) {
+//        User u = (User) httpSession.getAttribute("user");
+//        if (u == null || (u.getRole().getRoleName() != RoleName.ADMIN && u.getRole().getRoleName() != RoleName.USER)) {
+//            return "unauthorized";
+//        }
+
+        User userReg = this.userService.getById(httpSession.getAttribute("id").toString());
+        Event event = this.eventService.getById(id);
+        this.eventService.leave(event, userReg);
+
+        model.addAttribute("currentParticipants", event.getParticipants());
+
+        return "redirect:/events/event/?id=" + id;
+    }
+
+    @GetMapping("/event")
+    public String getDetails(@RequestParam String id, Model model, HttpSession httpSession) {
+        User user2 = this.userService.getById(httpSession.getAttribute("id").toString());
+
+        boolean isParticipant = this.eventService.isParticipant(this.eventService.getById(id), user2);
+        EventServiceModel eventServiceModel = this.modelMapper.map(this.eventService.getById(id), EventServiceModel.class);
+
+        model.addAttribute("eventServiceModel", eventServiceModel);
+        model.addAttribute("isParticipant", isParticipant);
+        model.addAttribute("isOwner",
+                this.eventService.isOwner(
+                        this.modelMapper.map(eventServiceModel, Event.class),
+                        user2.getId()
+                )
+        );
+        if (user2.getRole().getRoleName().toString().equals("ADMIN")) {
+            model.addAttribute("isADMIN", true);
+        } else if (user2.getRole().getRoleName().toString().equals("USER")) {
+
+        } else {
+            return "unauthorized";
+        }
+        return "event-view";
+    }
+
 }
