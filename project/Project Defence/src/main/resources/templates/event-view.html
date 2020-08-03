@@ -52,8 +52,8 @@
 
         <div th:if="${!isOwner}">
             <button th:switch="${isParticipant}"  onclick="requestSent()" id="participateBtn" class="button">
-                <span th:case="${isParticipant}">Leave</span>
-                <span th:case="${!isParticipant}">Participate</span>
+                <span th:case="true">Leave</span>
+                <span th:case="false">Participate</span>
             </button>
         </div>
 
