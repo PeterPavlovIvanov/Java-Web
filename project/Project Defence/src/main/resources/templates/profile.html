@@ -3,12 +3,6 @@
 <head>
     <th:block th:include="~{/fragments/head}"></th:block>
     <script>
-        function deleteConfirm() {
-            if (confirm("Are you sure you want to delete this post?")) {
-                document.getElementById("delBtn").click();
-            }
-        }
-
         function follow() {
             if (confirm("Are you sure you want to follow this user?")) {
                 document.getElementById("followBtn").click();
@@ -57,17 +51,18 @@
         </hidden>
 
 
-        <div class="postBoxClass" th:each="p : *{posts}" th:object="${p}">
+        <div class="postBoxClass" th:each="post : *{posts}" >
 
-            <b><h4 style="padding-top: 5px;" th:text="*{title}"></h4></b>
+            <b><h4 style="padding-top: 5px;" th:text="${post.title}"></h4></b>
             <hr style="width: 30%;margin-top: -5px;">
-            <p class="postText" th:text="*{text}"></p>
-            <button th:if="${isOwner}" class="button" onclick="deleteConfirm()"
-                    style="margin-left: 330px;margin-bottom: 15px;">
-                Delete
-            </button>
+            <p class="postText" th:text="${post.text}"></p>
 
-            <hidden><a id="delBtn" th:href="@{/posts/delete/{id}(id = *{id})}"></a></hidden>
+            <a th:if="${isOwner}" id="delBtn" th:href="@{/posts/delete/{id}(id = ${post.id})}">
+                <button  class="button"
+                        style="margin-left: 330px;margin-bottom: 15px;">
+                    Delete
+                </button>
+            </a>
         </div>
     </div>
 </main>

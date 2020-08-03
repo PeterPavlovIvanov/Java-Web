@@ -2,12 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
 <head>
     <th:block th:include="~{/fragments/head}"></th:block>
-    <script>
-        function vote() {
-            document.getElementById("like").click();
-            document.getElementById("displayPoints").style.display = "inline";
-        }
-    </script>
 </head>
 <body>
 <header>
@@ -23,18 +17,20 @@
     </div>
 
     <div class="container bg-blur rounded mt-5 ">
-        <div class="postBoxClass" th:each="p : ${allPosts}" th:object="${p}">
+        <div class="postBoxClass" th:each="p : ${allPosts}">
 
-            <b><h4 style="padding-top: 5px;" th:text="*{title}"></h4></b>
+            <b><h4 style="padding-top: 5px;" th:text="${p.title}"></h4></b>
             <hr style="width: 30%;margin-top: -5px;">
-            <p class="postText" th:text="*{text}"></p>
-            <a style="position:absolute;left:10px;bottom:10px;display: inline;" th:href="@{/users/profile/(id = *{getCommitter().getId()})}"
-               th:text="|Posted by: *{getCommitter().getNickname()}|"></a>
+            <p class="postText" th:text="${p.text}"></p>
+            <a style="position:absolute;left:10px;bottom:10px;display: inline;"
+               th:href="@{/users/profile/(id = ${p.committer.id})}"
+               th:text="|Posted by: ${p.committer.nickname}|"></a>
 
-            <p th:if="${hasVoted}" id="displayPoints" style="display: inline;padding-left: 15px;margin-bottom:10px;"
-               th:text="|Points :*{points}|"></p>
-            <button style="display: inline;position:absolute;right:10px;bottom:10px;" onclick="vote()"><i class="far fa-thumbs-up"></i></button>
-                <hidden><a id="like" th:href="@{/posts/voteUp/{id}(id = *{id})}"></a></hidden>
+
+            <a th:href="@{/posts/voteUp/(id = ${p.id})}">
+                <button th:text="|Points: ${p.points}|" style="display: inline;position:absolute;right:10px;bottom:10px;"><i
+                        class="far fa-thumbs-up"></i></button>
+            </a>
 
         </div>
     </div>
