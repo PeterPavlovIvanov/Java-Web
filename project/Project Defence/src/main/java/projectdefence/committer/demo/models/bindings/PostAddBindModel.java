@@ -27,7 +27,7 @@ public class PostAddBindModel {
         this.title = title;
     }
 
-    @Length(min = 10, message = "The Title must be at least 10  symbols.")
+    @Length(min = 10, message = "The text must be at least 10  symbols.")
     public String getText() {
         return text;
     }

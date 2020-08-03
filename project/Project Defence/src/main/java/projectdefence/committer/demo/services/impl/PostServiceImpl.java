@@ -1,6 +1,7 @@
 package projectdefence.committer.demo.services.impl;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import projectdefence.committer.demo.models.bindings.PostAddBindModel;
 import projectdefence.committer.demo.models.entities.Post;
@@ -70,6 +71,7 @@ public class PostServiceImpl implements PostService {
         return post;
     }
 
+    @Async
     @Override
     public void vote(User user, Post post, int vote) {
         Post postVoted = this.postRepository.findById(post.getId()).orElse(null);

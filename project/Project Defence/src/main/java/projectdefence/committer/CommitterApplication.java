@@ -11,6 +11,7 @@ import java.util.concurrent.Executor;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableAsync
 public class CommitterApplication {
 
     public static void main(String[] args) {

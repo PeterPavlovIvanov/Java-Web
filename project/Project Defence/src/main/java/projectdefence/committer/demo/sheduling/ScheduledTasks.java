@@ -1,17 +1,15 @@
 package projectdefence.committer.demo.sheduling;
 
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import projectdefence.committer.demo.models.entities.Event;
-import projectdefence.committer.demo.models.services.EventServiceModel;
 import projectdefence.committer.demo.services.EventService;
 import projectdefence.committer.demo.services.UserService;
 
@@ -19,18 +17,17 @@ import projectdefence.committer.demo.services.UserService;
 public class ScheduledTasks {
     private final EventService eventService;
     private LocalDateTime localDateTime;
-    private final ModelMapper modelMapper;
     private final UserService userService;
 
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    public ScheduledTasks(EventService eventService, ModelMapper modelMapper, UserService userService) {
+    public ScheduledTasks(EventService eventService, UserService userService) {
         this.eventService = eventService;
-        this.modelMapper = modelMapper;
         this.userService = userService;
     }
 
+    @Async
     @Scheduled(fixedRate = 60000)
     public void reportCurrentTime() {
         log.info("The time is now {}", dateFormat.format(new Date()));
