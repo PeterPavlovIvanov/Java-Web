@@ -71,7 +71,6 @@ public class PostServiceImpl implements PostService {
         return post;
     }
 
-    @Async
     @Override
     public void vote(User user, Post post, int vote) {
         Post postVoted = this.postRepository.findById(post.getId()).orElse(null);

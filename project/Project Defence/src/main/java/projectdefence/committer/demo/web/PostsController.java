@@ -68,6 +68,7 @@ public class PostsController {
 
     @GetMapping("/delete/{id}")
     public ModelAndView getDelete(@PathVariable(name = "id") String id, ModelAndView modelAndView, HttpSession httpSession) {
+        String check = id;
         Post post = this.postService.getById(id);
         this.userService.delete(this.modelMapper.map(post, PostServiceModel.class));
         this.postService.delete(id);
@@ -75,8 +76,8 @@ public class PostsController {
         return modelAndView;
     }
 
-    @GetMapping("/voteUp/{id}")
-    public ModelAndView voteUp(@PathVariable(name = "id") String id, ModelAndView modelAndView, HttpSession httpSession) {
+    @GetMapping("/voteUp")
+    public ModelAndView voteUp(@RequestParam(name = "id") String id, ModelAndView modelAndView, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute("user");
         Post post = this.postService.getById(id);
         this.postService.vote(user, post, 1);
