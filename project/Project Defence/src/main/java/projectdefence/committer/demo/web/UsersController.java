@@ -207,6 +207,7 @@ public class UsersController {
     public String searchForUsersPage(Model model, HttpSession httpSession) {
         if (httpSession.getAttribute("id") != null) {
             User u = (User) httpSession.getAttribute("user");
+            model.addAttribute("user",u);
             User user = this.userService.getById(u.getId());
             if (user.getRole().getRoleName().toString().equals("ADMIN")) {
                 model.addAttribute("isADMIN", true);
@@ -234,6 +235,7 @@ public class UsersController {
             modelAndView.addObject("usersList", usersList);
 
             User u = (User) httpSession.getAttribute("user");
+            modelAndView.addObject("user",u);
             User user = this.userService.getById(u.getId());
             if (user.getRole().getRoleName().toString().equals("ADMIN")) {
                 modelAndView.addObject("isADMIN", true);

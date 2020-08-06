@@ -38,6 +38,7 @@ public class EventsController {
         }
 
         User u = (User) httpSession.getAttribute("user");
+        model.addAttribute("user",u);
         User user = this.userService.getById(u.getId());
         if (user.getRole().getRoleName().toString().equals("ADMIN")) {
             model.addAttribute("isADMIN", true);
@@ -73,6 +74,7 @@ public class EventsController {
         }
 
         User u = (User) httpSession.getAttribute("user");
+        model.addAttribute("user", u);
         User user = this.userService.getById(u.getId());
         if (user.getRole().getRoleName().toString().equals("ADMIN")) {
             model.addAttribute("isADMIN", true);
@@ -119,6 +121,7 @@ public class EventsController {
     @GetMapping("/event")
     public String getDetails(@RequestParam String id, Model model, HttpSession httpSession) {
         User user2 = this.userService.getById(httpSession.getAttribute("id").toString());
+        model.addAttribute("user", user2);
 
         boolean isParticipant = this.eventService.isParticipant(this.eventService.getById(id), user2);
         EventServiceModel eventServiceModel = this.modelMapper.map(this.eventService.getById(id), EventServiceModel.class);

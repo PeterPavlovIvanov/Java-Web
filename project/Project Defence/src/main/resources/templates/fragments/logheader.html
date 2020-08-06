@@ -2,6 +2,8 @@
 <th:block>
     <nav class="navbar navbar-expand-lg bg-nav rounded">
         <a class="nav-link text-white active h5" href="/">Committer</a>
+        <a class="nav-link text-white active h5" th:object="${user}"
+           th:href="@{/users/profile/(id = ${user.id})}" th:text="${user.nickname}"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

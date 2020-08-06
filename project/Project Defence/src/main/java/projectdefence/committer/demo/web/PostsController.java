@@ -39,6 +39,7 @@ public class PostsController {
         }
 
         User u = (User) httpSession.getAttribute("user");
+        model.addAttribute("user", u);
         User user = this.userService.getById(u.getId());
         if (user.getRole().getRoleName().toString().equals("ADMIN") || user.getRole().getRoleName().toString().equals("USER")) {
             //model.addAttribute("isADMIN", true);

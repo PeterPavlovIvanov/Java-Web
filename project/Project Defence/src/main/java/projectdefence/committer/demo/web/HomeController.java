@@ -28,8 +28,6 @@ public class HomeController {
     public ModelAndView getHome(HttpSession httpSession, ModelAndView modelAndView) {
         this.roleService.init();
 
-
-
         if (httpSession.getAttribute("user") == null) {
             modelAndView.setViewName("index");
         } else {

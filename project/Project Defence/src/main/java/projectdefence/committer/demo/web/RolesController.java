@@ -33,6 +33,7 @@ public class RolesController {
         }
 
         User u = (User) httpSession.getAttribute("user");
+        model.addAttribute("user",u);
         User user = this.userService.getById(u.getId());
         if (user.getRole().getRoleName().toString().equals("ADMIN")) {
             model.addAttribute("isADMIN", true);

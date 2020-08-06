@@ -2,6 +2,7 @@ package projectdefence.committer.demo.models.entities;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,7 +27,7 @@ public class FollowedUser extends BaseEntity{
     }
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(cascade = CascadeType.DETACH)
+    @ManyToMany(cascade = CascadeType.DETACH)
     public List<User> getFollowers() {
         return followers;
     }

@@ -11,7 +11,7 @@
     <div style="background-color: #dcdcdc;width: 30%;height: 68px;margin-left: 20px;">
 
         <form th:action="@{/users/search/result/{searchString}(searchString = *{searchString})}" th:method="GET"
-              th:object="${searchUsersBindModel}">
+              th:object="${searchUsersBindModel}" style="margin-top:20px;">
             <input th:field="*{searchString}" th:errorclass="bg-danger" name="searchString" id="searchString"
                    style="display:inline;padding: 15px 5px 15px 20px;width: 80%;background-color: #dcdcdc;"
                    type="text" placeholder="Search for users..." required>
