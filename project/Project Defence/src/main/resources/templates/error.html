@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <th:block th:include="~{/fragments/head}"></th:block>
 </head>
-<body style="font-family: Arial, Helvetica, sans-serif;background: #e1e1e1">
-<header style="background: #089ac4;">
+<body style="font-family: Arial, Helvetica, sans-serif;">
+<header style="background: #089ac4;padding:5px 10px;display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: stretch;
+    align-items: center;">
     <h1 style="color:white;">Server Error</h1>
+    <a class="nav-link text-white active "  style="font-size: 26px;" href="/">Go Back <i class="fas fa-chevron-right"></i></a>
 </header>
 <main>
-    <hr>
+    <div style="display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: stretch;
+    align-items: center;">
+        <p class="error-page-message">Whoops! It seems this page is not reachable at the moment.</p>
+        <hr>
 
-    <div style="margin-left: 300px;margin-top: 150px;width:50%;border: 10px ridge">
-        <p style="padding-left: 180px;margin-bottom: 20px;display: block;color: black;">Whoops! It seems this page is not reachable at the moment.</p>
-        <img style="padding-left: 245px;margin-top: 15px;margin-bottom: 10px;display: block;width:33%;height: 33%;"
-             th:src="@{/images/errorPageGif.gif}" alt="error gif">
-        <p style="padding-left: 295px;margin-top: 20px;display: block;color: black;">We are working on it!</p>
+        <img style = "width:40%;" th:src="@{/images/taco.gif}" alt="error gif">
     </div>
-    <!--    <button class="button" href="/">Back to home</button>-->
-    <div style="margin-left: 300px;margin-top: 190px;margin-bottom: 10px;width:50%;border: 10px ridge">
-
     </div>
 </main>
 <footer class="footer py-2">

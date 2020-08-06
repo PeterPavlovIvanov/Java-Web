@@ -7,6 +7,7 @@ import projectdefence.committer.demo.models.services.PostServiceModel;
 import projectdefence.committer.demo.models.services.UserServiceModel;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostService {
     List<Post> getAll();
@@ -18,4 +19,6 @@ public interface PostService {
     Post delete(String id);
 
     void vote(User user, Post post, int vote);
+
+    Post getByTitle(String title);
 }

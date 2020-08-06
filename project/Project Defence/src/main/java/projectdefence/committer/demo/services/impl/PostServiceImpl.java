@@ -77,4 +77,12 @@ public class PostServiceImpl implements PostService {
         postVoted.setPoints(postVoted.getPoints() + 1);
         this.postRepository.saveAndFlush(postVoted);
     }
+
+    @Override
+    public Post getByTitle(String title) {
+        return this.postRepository
+                .findByTitle(title)
+                .map(p -> this.modelMapper.map(p, Post.class))
+                .orElse(null);
+    }
 }

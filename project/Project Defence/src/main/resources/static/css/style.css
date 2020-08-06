@@ -141,3 +141,18 @@ p {
     padding-right: 25px;
     padding-bottom: 5px;
 }
+
+.error-page-message{
+    font-size: 30px;
+    font-weight: 600;
+    display: block;
+}
+
+.error-page-message::after{
+    display: block;
+    content: "";
+    height: 2px ;
+    width: 80%;
+    background-color: black ;
+    margin: 10px 10%;
+}

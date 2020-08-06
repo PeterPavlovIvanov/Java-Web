@@ -19,6 +19,7 @@
                 <label style="margin-left: -4px"><b>Title :</b></label>
                 <input th:field="*{title}" th:errorclass="bg-danger"  type="text" placeholder="Enter title" name="title" id="title" required>
                 <small th:each="e : ${#fields.errors('title')}" th:text="${e}" class="text-danger">Title incorrect!</small>
+                <small th:if="${postTitleTaken}"  th:text="${'This title is taken!'}" class="text-danger">Title incorrect!</small>
                 <br>
 
                 <label style="margin-left: -5px;margin-bottom: 50px"><b >Text :</b></label>
@@ -32,8 +33,13 @@
     </div>
 
 </main>
-</body>
 <footer class="footer py-2">
-    <th:block th:include="~{/fragments/footer}"></th:block>
+    <div class="container-fluid text-center">
+        <div class="footer-background h5 ">
+            &copy; Committer team 2020. All rights reserved.
+        </div>
+    </div>
 </footer>
+</body>
+
 </html>

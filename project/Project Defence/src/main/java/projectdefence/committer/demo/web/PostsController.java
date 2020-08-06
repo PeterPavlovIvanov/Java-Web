@@ -33,7 +33,7 @@ public class PostsController {
     }
 
     @GetMapping("/add")
-    public String getAdd(Model model,HttpSession httpSession) {
+    public String getAdd(Model model, HttpSession httpSession) {
         if (!model.containsAttribute("postAddBindModel")) {
             model.addAttribute("postAddBindModel", new PostAddBindModel());
         }
@@ -57,6 +57,10 @@ public class PostsController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("postAddBindModel", postAddBindModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.postAddBindModel", bindingResult);
+            modelAndView.setViewName("redirect:/posts/add");
+        } else if (this.postService.getByTitle(postAddBindModel.getTitle()) != null) {
+            redirectAttributes.addFlashAttribute("postAddBindModel", postAddBindModel);
+            redirectAttributes.addFlashAttribute("postTitleTaken", true);
             modelAndView.setViewName("redirect:/posts/add");
         } else {
             this.postService.addACommit(postAddBindModel, httpSession.getAttribute("id").toString());
@@ -84,17 +88,16 @@ public class PostsController {
 
         User u = (User) httpSession.getAttribute("user");
         User user2 = this.userService.getById(u.getId());
-        if(user2.getRole().getRoleName().toString().equals("ADMIN")){
-            modelAndView.addObject("isADMIN",true);
+        if (user2.getRole().getRoleName().toString().equals("ADMIN")) {
+            modelAndView.addObject("isADMIN", true);
         }
 
         modelAndView.addObject("user", (User) httpSession.getAttribute("user"));
         modelAndView.addObject("allPosts", this.postService.getAll());
-        modelAndView.addObject("hasVoted",true);
+        modelAndView.addObject("hasVoted", true);
         modelAndView.setViewName("/home");
         return modelAndView;
     }
-    
 
 
 }
