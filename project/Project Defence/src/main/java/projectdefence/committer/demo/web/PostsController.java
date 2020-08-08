@@ -34,6 +34,10 @@ public class PostsController {
 
     @GetMapping("/add")
     public String getAdd(Model model, HttpSession httpSession) {
+        if(httpSession.getAttribute("id") == null){
+            return "unauthorized";
+        }
+
         if (!model.containsAttribute("postAddBindModel")) {
             model.addAttribute("postAddBindModel", new PostAddBindModel());
         }
@@ -42,7 +46,7 @@ public class PostsController {
         model.addAttribute("user", u);
         User user = this.userService.getById(u.getId());
         if (user.getRole().getRoleName().toString().equals("ADMIN") || user.getRole().getRoleName().toString().equals("USER")) {
-            //model.addAttribute("isADMIN", true);
+            model.addAttribute("isADMIN", true);
             return "post-add";
         } else {
             return "unauthorized";

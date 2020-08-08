@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import projectdefence.committer.demo.models.bindings.SearchUsersBindModel;
 import projectdefence.committer.demo.models.bindings.UserLoginBindModel;
 import projectdefence.committer.demo.models.bindings.UserRegisterBindModel;
+import projectdefence.committer.demo.models.entities.Role;
 import projectdefence.committer.demo.models.entities.User;
 import projectdefence.committer.demo.models.services.UserServiceModel;
 import projectdefence.committer.demo.models.views.UserViewModel;
@@ -39,6 +40,11 @@ public class UsersController {
     public ModelAndView getRegister(@Valid
                                     @ModelAttribute("userRegisterBindModel") UserRegisterBindModel userRegisterBindModel,
                                     HttpSession httpSession, ModelAndView modelAndView) {
+        if (httpSession.getAttribute("id") != null) {
+            modelAndView.setViewName("unauthorized");
+            return modelAndView;
+        }
+
         modelAndView.addObject("userRegisterBindModel", userRegisterBindModel);
 
         modelAndView.setViewName("register");
@@ -83,6 +89,10 @@ public class UsersController {
 
     @GetMapping("/login")
     public String getLogin(Model model, HttpSession httpSession) {
+        if (httpSession.getAttribute("id") != null) {
+            return "unauthorized";
+        }
+
         if (model.getAttribute("userLoginBindModel") == null) {
             model.addAttribute("userLoginBindModel", new UserLoginBindModel());
         }
@@ -109,6 +119,7 @@ public class UsersController {
                 modelAndView.setViewName("redirect:/users/login");
             } else {
                 httpSession.setAttribute("user", this.modelMapper.map(userServiceModel, User.class));
+                httpSession.setAttribute("role", this.modelMapper.map(userServiceModel.getRoleServiceModel(), Role.class));
                 httpSession.setAttribute("id", userServiceModel.getId());
                 modelAndView.setViewName("redirect:/");
             }
@@ -119,6 +130,11 @@ public class UsersController {
 
     @GetMapping("/logout")
     public ModelAndView getLogout(ModelAndView modelAndView, HttpSession httpSession) {
+        if (httpSession.getAttribute("id") == null) {
+            modelAndView.setViewName("unauthorized");
+            return modelAndView;
+        }
+
         httpSession.invalidate();
         modelAndView.setViewName("redirect:/");
         return modelAndView;
@@ -126,6 +142,11 @@ public class UsersController {
 
     @GetMapping("/profile")
     public ModelAndView getDetails(@RequestParam("id") String id, ModelAndView modelAndView, HttpSession httpSession) {
+        if (httpSession.getAttribute("id") == null) {
+            modelAndView.setViewName("unauthorized");
+            return modelAndView;
+        }
+
         User user = this.userService.getById(id);
         Collections.reverse(user.getPosts());
         //reverses the list so the newest posts can be on the top
@@ -188,6 +209,11 @@ public class UsersController {
 
     @GetMapping("/followers/{id}")
     public ModelAndView followers(@PathVariable(name = "id") String id, ModelAndView modelAndView, HttpSession httpSession) {
+        if (httpSession.getAttribute("id") == null) {
+            modelAndView.setViewName("unauthorized");
+            return modelAndView;
+        }
+
         User user = this.userService.getById(id);
 
         modelAndView.addObject("followersById", this.followerService.getFollowers(user));
@@ -207,7 +233,7 @@ public class UsersController {
     public String searchForUsersPage(Model model, HttpSession httpSession) {
         if (httpSession.getAttribute("id") != null) {
             User u = (User) httpSession.getAttribute("user");
-            model.addAttribute("user",u);
+            model.addAttribute("user", u);
             User user = this.userService.getById(u.getId());
             if (user.getRole().getRoleName().toString().equals("ADMIN")) {
                 model.addAttribute("isADMIN", true);
@@ -229,13 +255,14 @@ public class UsersController {
                                        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (httpSession.getAttribute("id") == null) {
             modelAndView.setViewName("unauthorized");
+            return modelAndView;
         } else if (!bindingResult.hasErrors()) {
             List<User> usersList = this.userService
                     .searchUsersByAlikeNicknames(searchUsersBindModel.getSearchString());
             modelAndView.addObject("usersList", usersList);
 
             User u = (User) httpSession.getAttribute("user");
-            modelAndView.addObject("user",u);
+            modelAndView.addObject("user", u);
             User user = this.userService.getById(u.getId());
             if (user.getRole().getRoleName().toString().equals("ADMIN")) {
                 modelAndView.addObject("isADMIN", true);

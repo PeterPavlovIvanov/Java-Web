@@ -38,7 +38,7 @@ public class EventsController {
         }
 
         User u = (User) httpSession.getAttribute("user");
-        model.addAttribute("user",u);
+        model.addAttribute("user", u);
         User user = this.userService.getById(u.getId());
         if (user.getRole().getRoleName().toString().equals("ADMIN")) {
             model.addAttribute("isADMIN", true);
@@ -53,6 +53,17 @@ public class EventsController {
                                 @ModelAttribute("eventAddBindModel") EventAddBindModel eventAddBindModel,
                                 BindingResult bindingResult, ModelAndView modelAndView, RedirectAttributes redirectAttributes,
                                 HttpSession httpSession) {
+        if (httpSession.getAttribute("id") == null) {
+            modelAndView.setViewName("unauthorized");
+            return modelAndView;
+        } else {
+            User u = (User) httpSession.getAttribute("user");
+            if (u.getRole().getRoleName().toString() != "ADMIN") {
+                modelAndView.setViewName("unauthorized");
+                return modelAndView;
+            }
+        }
+
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("eventAddBindModel", eventAddBindModel);
@@ -68,6 +79,10 @@ public class EventsController {
 
     @GetMapping("/all")
     public String getAll(Model model, HttpSession httpSession) {
+        if (httpSession.getAttribute("id") == null) {
+            return "unauthorized";
+        }
+
         model.addAttribute("allEvents", this.eventService.getAll());
         if (this.eventService.getAll().size() == 0) {
             model.addAttribute("noEvents", true);

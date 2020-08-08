@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import projectdefence.committer.demo.models.bindings.UserChangeRoleBindModel;
+import projectdefence.committer.demo.models.entities.Role;
 import projectdefence.committer.demo.models.entities.User;
+import projectdefence.committer.demo.models.services.RoleServiceModel;
 import projectdefence.committer.demo.services.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -27,21 +29,27 @@ public class RolesController {
     }
 
     @GetMapping("/edit")
-    public String getEdit(Model model,HttpSession httpSession) {
+    public String getEdit(Model model, HttpSession httpSession) {
+        User u = (User) httpSession.getAttribute("user");
+        Role role = (Role) httpSession.getAttribute("role");
+        if(httpSession.getAttribute("id") == null){
+            return "unauthorized";
+        } else if (role.getRoleName().toString() != "ADMIN") {
+            return "unauthorized";
+        }
+
         if (!model.containsAttribute("userChangeRoleBindModel")) {
             model.addAttribute("userChangeRoleBindModel", new UserChangeRoleBindModel());
         }
 
-        User u = (User) httpSession.getAttribute("user");
-        model.addAttribute("user",u);
+
+
+        model.addAttribute("user", u);
         User user = this.userService.getById(u.getId());
         if (user.getRole().getRoleName().toString().equals("ADMIN")) {
             model.addAttribute("isADMIN", true);
-            return "role-edit";
-        } else {
-            return "unauthorized";
         }
-
+        return "role-edit";
     }
 
     @PostMapping("/edit")

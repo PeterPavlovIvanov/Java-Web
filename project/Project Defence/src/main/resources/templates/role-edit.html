@@ -18,7 +18,7 @@
                 <hr>
                 <small th:if="${notFound}" class="text-danger">Incorrect username!</small>
 
-                <label style="margin-left: -4px" for="nickname"><b>Nickname :</b></label>
+                <label  for="nickname"><b>Nickname :</b></label>
                 <input th:field="*{nickname}" th:errorclass="bg-danger"  type="text" placeholder="Enter Nickname" name="nickname" id="nickname" required>
                 <small th:each="e : ${#fields.errors('nickname')}" th:text="${e}" class="text-danger">Nickname incorrect!</small>
                 <br>

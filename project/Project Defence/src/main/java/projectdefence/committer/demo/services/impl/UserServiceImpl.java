@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import projectdefence.committer.demo.models.bindings.UserChangeRoleBindModel;
 import projectdefence.committer.demo.models.entities.*;
 import projectdefence.committer.demo.models.services.PostServiceModel;
+import projectdefence.committer.demo.models.services.RoleServiceModel;
 import projectdefence.committer.demo.models.services.UserServiceModel;
 import projectdefence.committer.demo.models.views.UserViewModel;
 import projectdefence.committer.demo.repositories.UserRepository;
@@ -14,6 +15,7 @@ import projectdefence.committer.demo.services.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -50,10 +52,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserServiceModel getByNickname(String nickname) {
-        return this.userRepository
-                .findByNickname(nickname)
-                .map(u -> this.modelMapper.map(u, UserServiceModel.class))
-                .orElse(null);
+        Optional<User> byNickname = this.userRepository.findByNickname(nickname);
+        User u = byNickname.orElse(null);
+        RoleServiceModel roleServiceModel = this.modelMapper.map(u.getRole(), RoleServiceModel.class);
+
+        UserServiceModel userServiceModel = this.modelMapper.map(u, UserServiceModel.class);
+        userServiceModel.setRoleServiceModel(roleServiceModel);
+        return userServiceModel;
     }
 
     @Override
