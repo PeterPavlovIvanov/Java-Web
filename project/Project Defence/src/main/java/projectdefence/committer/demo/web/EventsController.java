@@ -103,6 +103,9 @@ public class EventsController {
 
     @GetMapping("/participate/{id}")
     public String participate(@PathVariable(name = "id") String id, Model model, HttpSession httpSession) {
+        if (httpSession.getAttribute("id") == null) {
+            return "unauthorized";
+        }
 //        User u = (User) httpSession.getAttribute("user");
 //        if (u == null || (u.getRole().getRoleName() != RoleName.ADMIN && u.getRole().getRoleName() != RoleName.USER)) {
 //            return "unauthorized";
@@ -119,6 +122,9 @@ public class EventsController {
 
     @GetMapping("/leave/{id}")
     public String leave(@PathVariable(name = "id") String id, Model model, HttpSession httpSession) {
+        if (httpSession.getAttribute("id") == null) {
+            return "unauthorized";
+        }
 //        User u = (User) httpSession.getAttribute("user");
 //        if (u == null || (u.getRole().getRoleName() != RoleName.ADMIN && u.getRole().getRoleName() != RoleName.USER)) {
 //            return "unauthorized";
@@ -135,6 +141,10 @@ public class EventsController {
 
     @GetMapping("/event")
     public String getDetails(@RequestParam String id, Model model, HttpSession httpSession) {
+        if (httpSession.getAttribute("id") == null) {
+            return "unauthorized";
+        }
+
         User user2 = this.userService.getById(httpSession.getAttribute("id").toString());
         model.addAttribute("user", user2);
 
