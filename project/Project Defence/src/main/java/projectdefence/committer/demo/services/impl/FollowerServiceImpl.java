@@ -48,7 +48,6 @@ public class FollowerServiceImpl implements FollowerService {
     @Override
     public void unfollow(String followerId, String followedId) {
         FollowedUser followedPerson = this.followerRepository.findByFollowed_Id(followedId);
-
         User userToDel = this.userRepository.findById(followerId).orElse(null);
 
         int i = 0;

@@ -77,7 +77,6 @@ public class PostsController {
 
     @GetMapping("/delete/{id}")
     public ModelAndView getDelete(@PathVariable(name = "id") String id, ModelAndView modelAndView, HttpSession httpSession) {
-        String check = id;
         Post post = this.postService.getById(id);
         this.userService.delete(this.modelMapper.map(post, PostServiceModel.class));
         this.postService.delete(id);
