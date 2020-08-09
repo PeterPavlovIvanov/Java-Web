@@ -1,7 +1,5 @@
 package projectdefence.committer.demo.models.views;
 
-import projectdefence.committer.demo.models.entities.Role;
-
 public class UserViewModel {
     private String nickname;
     private String id;

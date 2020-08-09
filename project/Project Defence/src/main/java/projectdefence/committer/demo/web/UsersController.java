@@ -37,18 +37,15 @@ public class UsersController {
     }
 
     @GetMapping("/register")
-    public ModelAndView getRegister(@Valid
-                                    @ModelAttribute("userRegisterBindModel") UserRegisterBindModel userRegisterBindModel,
-                                    HttpSession httpSession, ModelAndView modelAndView) {
+    public String getRegister(HttpSession httpSession, Model model) {
         if (httpSession.getAttribute("id") != null) {
-            modelAndView.setViewName("unauthorized");
-            return modelAndView;
+            return "unauthorized";
         }
 
-        modelAndView.addObject("userRegisterBindModel", userRegisterBindModel);
-
-        modelAndView.setViewName("register");
-        return modelAndView;
+        if (model.getAttribute("userRegisterBindModel") == null) {
+            model.addAttribute("userRegisterBindModel", new UserRegisterBindModel());
+        }
+        return "register";
     }
 
     @PostMapping("/register")
@@ -57,10 +54,9 @@ public class UsersController {
                                      BindingResult bindingResult, ModelAndView modelAndView, HttpSession httpSession,
                                      RedirectAttributes redirectAttributes) {
 
-        if (bindingResult.hasErrors() ||
-                !userRegisterBindModel.getPassword().equals(userRegisterBindModel.getRepeatPassword())) {
+        if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userRegisterBindModel", userRegisterBindModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegBindModel", bindingResult);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterBindModel", bindingResult);
             modelAndView.setViewName("redirect:/users/register");
         } else {
             if (!userRegisterBindModel.getRepeatPassword().equals(userRegisterBindModel.getPassword())) {
