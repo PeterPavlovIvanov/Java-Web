@@ -106,10 +106,6 @@ public class EventsController {
         if (httpSession.getAttribute("id") == null) {
             return "unauthorized";
         }
-//        User u = (User) httpSession.getAttribute("user");
-//        if (u == null || (u.getRole().getRoleName() != RoleName.ADMIN && u.getRole().getRoleName() != RoleName.USER)) {
-//            return "unauthorized";
-//        }
 
         User userReg = this.userService.getById(httpSession.getAttribute("id").toString());
         Event event = this.eventService.getById(id);
@@ -125,10 +121,6 @@ public class EventsController {
         if (httpSession.getAttribute("id") == null) {
             return "unauthorized";
         }
-//        User u = (User) httpSession.getAttribute("user");
-//        if (u == null || (u.getRole().getRoleName() != RoleName.ADMIN && u.getRole().getRoleName() != RoleName.USER)) {
-//            return "unauthorized";
-//        }
 
         User userReg = this.userService.getById(httpSession.getAttribute("id").toString());
         Event event = this.eventService.getById(id);
@@ -140,7 +132,7 @@ public class EventsController {
     }
 
     @GetMapping("/event")
-    public String getDetails(@RequestParam String id, Model model, HttpSession httpSession) {
+    public String getDetails(@RequestParam(name = "id") String id, Model model, HttpSession httpSession) {
         if (httpSession.getAttribute("id") == null) {
             return "unauthorized";
         }

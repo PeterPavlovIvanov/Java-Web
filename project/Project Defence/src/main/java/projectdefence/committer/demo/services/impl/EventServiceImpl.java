@@ -46,7 +46,6 @@ public class EventServiceImpl implements EventService {
             user.getEvents().add(event);
         }
         this.userRepository.save(user);
-        //this.postRepository.save(post);
     }
 
     @Override

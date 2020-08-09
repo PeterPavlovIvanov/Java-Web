@@ -54,6 +54,9 @@ public class UserServiceImpl implements UserService {
     public UserServiceModel getByNickname(String nickname) {
         Optional<User> byNickname = this.userRepository.findByNickname(nickname);
         User u = byNickname.orElse(null);
+        if(u == null){
+            return null;
+        }
         RoleServiceModel roleServiceModel = this.modelMapper.map(u.getRole(), RoleServiceModel.class);
 
         UserServiceModel userServiceModel = this.modelMapper.map(u, UserServiceModel.class);

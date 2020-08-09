@@ -43,13 +43,6 @@
         <input type="hidden" id="joinId" th:value="${eventServiceModel.getId()}"/>
         <input type="hidden" id="leaveId" th:value="${eventServiceModel.getId()}"/>
 
-<!--        <button th:if="${!isParticipant}" onclick="participateClick()" id="participateBtn" class="button">-->
-<!--            Participate-->
-<!--        </button>-->
-<!--        <button th:if="${isParticipant}" onclick="leaveClick()" id="leaveBtn" class="button">-->
-<!--            Leave-->
-<!--        </button>-->
-
         <div th:if="${!isOwner}">
             <button th:switch="${isParticipant}"  onclick="requestSent()" id="participateBtn" class="button">
                 <span th:case="true">Leave</span>

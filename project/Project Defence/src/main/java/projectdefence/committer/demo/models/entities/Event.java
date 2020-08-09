@@ -47,7 +47,7 @@ public class Event extends BaseEntity {
     }
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     public List<User> getParticipants() {
         return participants;
     }
